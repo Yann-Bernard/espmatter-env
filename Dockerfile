@@ -4,6 +4,7 @@ LABEL maintainer="Yann Bernard <yann.bernard@makerlab-hannover.de>"
 # Set environment variables
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Europe/Berlin
+ENV TERM xterm
 
 # Install Baisic Packages
 RUN apt update -y && apt-get upgrade -y
@@ -17,34 +18,27 @@ RUN apt install -y bison build-essential ccache cmake dfu-util flex g++ gcc git 
 RUN pip install --upgrade pip
 RUN pip install pyelftools cmake ninja pyyaml cryptography pyserial pyparsing
 
-# Setup permissions
-RUN chown -R devuser:devuser /home/devuser
-USER devuser
+# Setup scripts
+COPY scripts /home/devuser/scripts
+COPY .zshrc /home/devuser/.zshrc-tmp
+RUN chmod +x /home/devuser/scripts/*.sh
+RUN chown -R devuser:devuser /home/devuser/
 
-# Setup esp-idf
+# Install ESP-IDF and connectedhomeip
 WORKDIR /home/devuser
-RUN mkdir ./tools
-WORKDIR /home/devuser/tools
-RUN git clone --recursive https://github.com/espressif/esp-idf.git -b v4.4.2 esp-idf
-WORKDIR /home/devuser/tools/esp-idf 
-RUN git submodule update --init
-RUN ./install.sh
-# RUN export IDF_PATH=/home/devuser/tools/esp-idf
+USER devuser
+RUN /home/devuser/scripts/install-esp-idf.sh
+USER root
 
-# Setup connectedhomeip
-WORKDIR /home/devuser/tools
-RUN git clone https://github.com/project-chip/connectedhomeip.git
-WORKDIR /home/devuser/tools/connectedhomeip
-RUN git fetch origin v1.0-branch
-RUN git checkout FETCH_HEAD
-RUN git submodule update --init --recursive
-# RUN . /home/devuser/tools/connectedhomeip/scripts/activate.sh
 
 # Setup Workspace
-# RUN . /home/devuser/tools/esp-idf/export.sh
+USER devuser
 WORKDIR /home/devuser
 RUN mkdir /home/devuser/projects
-
-# initial dir
 WORKDIR /home/devuser
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN rm /home/devuser/.zshrc
+RUN mv /home/devuser/.zshrc-tmp /home/devuser/.zshrc
+
+# Run the shell
 CMD ["zsh"]
