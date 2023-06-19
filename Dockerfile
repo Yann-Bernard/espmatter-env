@@ -45,10 +45,6 @@ RUN git submodule update --init --recursive
 WORKDIR /home/devuser
 RUN mkdir /home/devuser/projects
 
-# Setup zsh
-ENV TERM xterm
-ENV ZSH_THEME agnoster
-
 # initial dir
 WORKDIR /home/devuser
 CMD ["zsh"]
