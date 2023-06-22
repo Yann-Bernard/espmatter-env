@@ -20,7 +20,7 @@ This is the development environment for our project.
 
     2. Pull the image on https://hub.docker.com/repository/docker/yannbernard/matter-esp-dev/general
         ```bash
-        docker push yannbernard/matter-esp-dev:latest
+        docker pull yannbernard/matter-esp-dev:latest
         ```
 
 3. Run the image
