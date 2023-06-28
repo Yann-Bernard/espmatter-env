@@ -6,6 +6,7 @@ This is the development environment for our project.
 - [ESPMATTER-ENV](#espmatter-env)
   - [Tabel of Contents](#tabel-of-contents)
   - [Using the environment](#using-the-environment)
+  - [Environment](#environment)
   - [Resources](#resources)
 
 ## Using the environment
@@ -25,7 +26,7 @@ This is the development environment for our project.
 
 3. Run the image
     ```bash
-    docker run -it --rm -v $(pwd):/home/devuser/projects ubuntu:matter-esp
+    docker run -it --rm -v $(pwd):/home/devuser/projects yannbernard/matter-esp-dev:latest
     ```
     Or connect to it via VSCode Remote Containers
 
