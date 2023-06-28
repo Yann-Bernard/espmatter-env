@@ -25,6 +25,7 @@ RUN chmod +x /home/devuser/scripts/*.sh
 RUN chown -R devuser:devuser /home/devuser/
 
 # Install ESP-IDF and connectedhomeip
+RUN usermod -aG dialout devuser
 WORKDIR /home/devuser
 USER devuser
 RUN /home/devuser/scripts/install-esp-idf.sh
