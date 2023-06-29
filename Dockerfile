@@ -18,6 +18,16 @@ RUN apt install -y bison build-essential ccache cmake dfu-util flex g++ gcc git 
 RUN pip install --upgrade pip
 RUN pip install pyelftools cmake ninja pyyaml cryptography pyserial pyparsing
 
+# install fonts
+USER devuser
+RUN mkdir -p /home/devuser/Downloads/fonts
+WORKDIR /home/devuser/Downloads/fonts
+RUN git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git nerd-fonts && cd nerd-fonts && ./install.sh && cd .. && rm -rf nerd-fonts
+WORKDIR /home/devuser
+RUN rm -rf /home/devuser/Downloads/fonts
+USER root
+
+
 # Setup scripts
 COPY scripts /home/devuser/scripts
 COPY .zshrc /home/devuser/.zshrc-tmp
@@ -27,7 +37,7 @@ RUN chown -R devuser:devuser /home/devuser/
 # Install ESP-IDF and connectedhomeip
 WORKDIR /home/devuser
 USER devuser
-RUN /home/devuser/scripts/install-esp-idf.sh
+# RUN /home/devuser/scripts/install.sh
 USER root
 
 
@@ -39,6 +49,7 @@ WORKDIR /home/devuser
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 RUN rm /home/devuser/.zshrc
 RUN mv /home/devuser/.zshrc-tmp /home/devuser/.zshrc
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 # Run the shell
 CMD ["zsh"]
