@@ -26,7 +26,7 @@ This is the development environment for our project.
 
 3. Run the image
     ```bash
-    docker run -it --rm -v $(pwd):/home/devuser/projects yannbernard/matter-esp-dev:latest
+    docker run -it --rm --device=/dev/ttyUSB0 -v $(pwd):/home/devuser/projects yannbernard/matter-esp-dev:latest
     ```
     Or connect to it via VSCode Remote Containers
 
