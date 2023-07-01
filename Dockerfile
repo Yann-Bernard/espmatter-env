@@ -22,14 +22,18 @@ RUN python3 -m pip install esptool;
 # Setup scripts
 COPY scripts /home/devuser/scripts
 COPY .zshrc /home/devuser/.zshrc-tmp
-RUN chmod +x /home/devuser/scripts/*.sh
+RUN git clone --depth=1 https://github.com/ryanoasis/nerd-fonts.git /home/devuser/Downloads/nerd-fonts
+WORKDIR /home/devuser/Downloads/nerd-fonts
+RUN ./install.sh
+WORKDIR /home/devuser
 RUN chown -R devuser:devuser /home/devuser/
 
 # Install ESP-IDF and connectedhomeip
 RUN usermod -aG dialout devuser
 WORKDIR /home/devuser
 USER devuser
-RUN sh /home/devuser/scripts/install.sh
+RUN sh /home/devuser/scripts/install/esp_tool_install.sh
+RUN sh /home/devuser/scripts/install/connectedhomeip_install.sh
 USER root
 
 
@@ -38,9 +42,11 @@ USER devuser
 WORKDIR /home/devuser
 RUN mkdir /home/devuser/projects
 WORKDIR /home/devuser
+RUN rm -rf /home/devuser/Downloads/nerd-fonts
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 RUN rm /home/devuser/.zshrc
 RUN mv /home/devuser/.zshrc-tmp /home/devuser/.zshrc
+RUN sh /home/devuser/scripts/install/theme_install.sh
 
 # Run the shell
 CMD ["zsh"]
