@@ -22,6 +22,7 @@ RUN python3 -m pip install esptool;
 # Setup scripts
 COPY scripts /home/devuser/scripts
 COPY .zshrc /home/devuser/.zshrc-tmp
+COPY .p10k.zsh /home/devuser/.p10k.zsh
 RUN git clone --depth=1 https://github.com/ryanoasis/nerd-fonts.git /home/devuser/Downloads/nerd-fonts
 WORKDIR /home/devuser/Downloads/nerd-fonts
 RUN ./install.sh
