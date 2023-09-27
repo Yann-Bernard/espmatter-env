@@ -40,3 +40,4 @@ Password is: esppasswd
 
 ## Resources
 Setting up: https://www.codemag.com/Article/1811021/Docker-for-Developers
+espidf: https://docs.espressif.com/projects/esp-matter/en/latest/esp32/developing.html
