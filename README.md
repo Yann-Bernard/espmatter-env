@@ -14,9 +14,8 @@ This is the development environment for our project.
 2. Getting the image (1 or 2)
    1. Build the image
         ```bash
-        docker build -f ./Dockerfile -t ubuntu:matter-esp .
+        make build
         ```
-        got to ``cd ~/scripts`` and run ``./install.sh`` 
         <br/><br/>
 
     2. Pull the image on https://hub.docker.com/repository/docker/yannbernard/matter-esp-dev/general
@@ -26,14 +25,9 @@ This is the development environment for our project.
 
 3. Run the image
     ```bash
-    docker run -it --rm --device=/dev/ttyUSB0 -v $(pwd):/home/devuser/projects yannbernard/matter-esp-dev:latest
+    make run
     ```
     Or connect to it via VSCode Remote Containers
-
-4. Source the environment
-    ```bash
-    source ~/scripts/source.sh
-    ``` 
 
 ## Environment
 Password is: esppasswd
