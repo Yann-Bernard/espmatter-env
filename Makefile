@@ -7,7 +7,7 @@ build:
 	docker build -f ./Dockerfile -t $(IMAGE_NAME) .
 
 run:
-	docker run -it --rm -v $(shell pwd):/home/devuser/projects $(IMAGE_NAME)
+	docker run -it --rm -v $(shell pwd)/projects:/home/devuser/projects $(IMAGE_NAME)
 
 clean:
 	docker rm $(CONTAINER_NAME)
